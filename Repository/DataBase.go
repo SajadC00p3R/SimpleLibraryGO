@@ -17,6 +17,9 @@ func Database() (*gorm.DB, error) {
 	if err = db.AutoMigrate(&Entity.Book{}); err != nil {
 		log.Println(err)
 	}
+	if err = db.AutoMigrate(&Entity.Order{}); err != nil {
+		log.Println(err)
+	}
 
 	return db, err
 

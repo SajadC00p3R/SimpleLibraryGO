@@ -2,7 +2,7 @@ package main
 
 import (
 	"Library/Repository"
-	"Library/ServiceBook"
+	"Library/Services"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -25,10 +25,13 @@ func handleDB() {
 }
 func handleRequests() {
 	myRouter := gin.Default()
-	myRouter.GET("/allBooks", ServiceBook.GetBooks)
-	myRouter.GET("/books/:id", ServiceBook.GetBook)
-	myRouter.POST("/books/add", ServiceBook.NewBook)
-	myRouter.PUT("/books/update/:id", ServiceBook.UpdateBook)
-	myRouter.DELETE("/books/delete/:id", ServiceBook.DeleteBook)
+	myRouter.GET("/allBooks", Services.GetBooks)
+	myRouter.GET("/books/:id", Services.GetBook)
+	myRouter.POST("/books/add", Services.NewBook)
+	myRouter.PUT("/books/update/:id", Services.UpdateBook)
+	myRouter.DELETE("/books/delete/:id", Services.DeleteBook)
+	myRouter.POST("/order/neworder", Services.NewOrder)
+	myRouter.PUT("/order/:order_id", Services.UpdateOrderStatus)
+
 	log.Fatal(http.ListenAndServe(":1000", myRouter))
 }

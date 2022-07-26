@@ -1,4 +1,4 @@
-package ServiceBook
+package Services
 
 import (
 	"Library/Entity"
@@ -9,7 +9,7 @@ import (
 )
 
 type newBook struct {
-	BookId string `json:"Id",gorm:"primaryKey" binding:"required"`
+	BookId string `json:"Id" gorm:"primaryKey" binding:"required"`
 	Title  string `json:"Title" json:"title" binding:"required"`
 	Pub    string `json:"pub" json:"pub" binding:"required"`
 	Year   string `json:"year" json:"year" binding:"required"`
