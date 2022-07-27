@@ -40,7 +40,6 @@ func NewOrder(c *gin.Context) {
 
 	c.JSON(http.StatusOK, newOrder)
 }
-
 func UpdateOrderStatus(c *gin.Context) {
 	var order Entity.Order
 	db, err := Repository.Database()
@@ -63,8 +62,59 @@ func UpdateOrderStatus(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, order)
 }
+func DeleteOrder(c *gin.Context) {
+	var order Entity.Order
 
-func deleteOrder()      {}
-func getOrderByUser()   {}
-func getOrderByStatus() {}
-func getOrderByBook()   {}
+	db, err := Repository.Database()
+	if err != nil {
+		log.Println(err)
+	}
+
+	if err := db.Where("order_id= ?", c.Param("order_id")).First(&order).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error ": err.Error()})
+		return
+	}
+	if err := db.Delete(&order).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Order Deleted "})
+}
+func GetOrderByUser(c *gin.Context) {
+	var orders []Entity.Order
+
+	db, err := Repository.Database()
+	if err != nil {
+		log.Println(err)
+	}
+
+	if err := db.Where("user_id = ?", c.Param("user_id")).First(&orders).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error ": err.Error()})
+	}
+	c.JSON(http.StatusOK, orders)
+}
+func GetOrderByStatus(c *gin.Context) {
+	var orders []Entity.Order
+
+	db, err := Repository.Database()
+	if err != nil {
+		log.Println(err)
+	}
+
+	if err := db.Where("status = ?", c.Param("status")).First(&orders).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error ": err.Error()})
+	}
+	c.JSON(http.StatusOK, orders)
+}
+func GetOrderByBook(c *gin.Context) {
+	var orders []Entity.Order
+
+	db, err := Repository.Database()
+	if err != nil {
+		log.Println(err)
+	}
+
+	if err := db.Where("book_id = ?", c.Param("book_id")).First(&orders).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"Error ": err.Error()})
+	}
+	c.JSON(http.StatusOK, orders)
+}

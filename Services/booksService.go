@@ -26,34 +26,34 @@ type BookUpdate struct {
 
 func GetBooks(c *gin.Context) {
 
-	var groceries []Entity.Book
+	var books []Entity.Book
 
 	db, err := Repository.Database()
 	if err != nil {
 		log.Println(err)
 	}
 
-	if err := db.Find(&groceries).Error; err != nil {
+	if err := db.Find(&books).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, groceries)
+	c.JSON(http.StatusOK, books)
 }
 func GetBook(c *gin.Context) {
 
-	var grocery Entity.Book
+	var book Entity.Book
 
 	db, err := Repository.Database()
 	if err != nil {
 		log.Println(err)
 	}
 
-	if err := db.Where("id= ?", c.Param("id")).First(&grocery).Error; err != nil {
+	if err := db.Where("id= ?", c.Param("id")).First(&book).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, grocery)
+	c.JSON(http.StatusOK, book)
 
 }
 
